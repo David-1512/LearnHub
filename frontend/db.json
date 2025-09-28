@@ -1,0 +1,29 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "title": "Álgebra Básica",
+      "description": "Repaso de ecuaciones lineales y cuadráticas.",
+      "location": "San José",
+      "price": 12000,
+      "photoUrl": "",
+      "tutorId": "t1",
+      "categories": ["math"]
+    },
+    {
+      "id": 2,
+      "title": "Inglés Conversacional",
+      "description": "Speaking club A2–B1.",
+      "location": "Heredia",
+      "price": 15000,
+      "photoUrl": "",
+      "tutorId": "t2",
+      "categories": ["languages"]
+    }
+  ],
+  "likes": [],
+  "users": [
+    { "id": "t1", "name": "Laura", "roles": ["tutor"] },
+    { "id": "s1", "name": "Diego", "roles": ["student"] }
+  ]
+}

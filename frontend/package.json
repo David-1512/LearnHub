@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "mock": "json-server --watch db.json --port 4000"
+    "mock": "json-server --watch db.json --port 4000 --routes routes.json --cors --delay 300"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.2",
