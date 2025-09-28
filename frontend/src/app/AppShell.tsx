@@ -1,10 +1,19 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../widgets/Navbar";
+import {NavbarInicio,NavbarRegistro} from "../widgets/Navbar";
 
-export default function AppShell() {
+export function AppShellInicio() {
    return (
     <div  className="min-h-screen bg-white text-gray-900">
-          <Navbar />
+          <NavbarInicio />
+          <Outlet />
+    </div>
+  );
+}
+
+export function AppShellRegistro() {
+   return (
+    <div  className="min-h-screen bg-white text-gray-900">
+          <NavbarRegistro/>
           <Outlet />
     </div>
   );
