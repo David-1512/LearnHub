@@ -40,7 +40,7 @@ export function NavbarInicio() {
 
 
 
-export function NavbarRegistro() {
+export function NavbarRegistroLogin() {
   const nav = useNavigate();
   return (
       <header className="max-w-7xl mx-auto px-6 sm:px-8 py-6 flex items-center justify-between">
