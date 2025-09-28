@@ -7,15 +7,17 @@ import HomePage from "../pages/home";
 import RegisterPage from "../pages/register";
 import TutorDash from "../pages/dashboard-tutor";
 import StudentDash from "../pages/dashboard-student";
+import { AuthProvider } from "./providers/AuthProvider";
+import RequireRole from "./router/RequireRole";
 
 const router = createBrowserRouter([
    // Layout principal (navbar de inicio)
   {
-    path: "/",                    // ⬅️ raíz del sitio
+    path: "/",                   
     element: <AppShellInicio />,
     children: [
-      { index: true, element: <HomePage /> },   // ⬅️ "/" muestra Home
-      { path: "tutor", element: <TutorDash /> },    // ⬅️ rutas relativas
+      { index: true, element: <HomePage /> },   
+      { path: "tutor", element: <TutorDash /> },    
       { path: "student", element: <StudentDash /> },
     ],
   },
@@ -24,11 +26,29 @@ const router = createBrowserRouter([
     path: "/register",
     element: <AppShellRegistro />,
     children: [
-      { index: true, element: <RegisterPage /> },   // ⬅️ "/register"
+      { index: true, element: <RegisterPage /> },  
     ],
   },
 
   { path: "/login", element: <LoginPage /> },
+
+  {
+   path: "tutor",
+    element: (
+       <RequireRole allow={["tutor", "admin"]}>
+          <TutorDash />
+        </RequireRole>
+    )
+  },
+
+   {
+     path: "student",
+     element: (
+        <RequireRole allow={["student", "admin"]}>
+          <StudentDash />
+        </RequireRole>
+     )
+    }
 
   // Cualquier otra ruta → redirige a Home
   { path: "*", element: <Navigate to="/" replace /> },
@@ -39,7 +59,9 @@ export default function AppRoot() {
   return (
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </QueryClientProvider>
     </StrictMode>
   );
