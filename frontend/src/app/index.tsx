@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
-import {AppShellInicio, AppShellRegistroLogin} from "./AppShell";
+import {AppShellInicio, AppShellRegistroLogin, AppShellStudent} from "./AppShell";
 import LoginPage from "../pages/login";
 import HomePage from "../pages/home";
 import RegisterPage from "../pages/register";
@@ -16,9 +16,7 @@ const router = createBrowserRouter([
     path: "/",                   
     element: <AppShellInicio />,
     children: [
-      { index: true, element: <HomePage /> },   
-      { path: "tutor", element: <TutorDash /> },    
-      { path: "student", element: <StudentDash /> },
+      { index: true, element: <HomePage /> }
     ],
   },
   // Layout del registro y login 
@@ -36,9 +34,12 @@ const router = createBrowserRouter([
    path: "tutor",
     element: (
        <RequireRole allow={["tutor", "admin"]}>
-          <TutorDash />
+          <AppShellStudent/>
         </RequireRole>
-    )
+    ),
+    children: [
+      {  index: true, element: <TutorDash /> }
+    ]
   },
 
    {
