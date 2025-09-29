@@ -30,26 +30,26 @@ const router = createBrowserRouter([
   },
 
 
+   {
+     path: "tutor",
+     element: (
+        <RequireRole allow={["tutor", "admin"]}>
+          <TutorDash />
+        </RequireRole>
+     )
+    },
+
   {
-   path: "tutor",
+   path: "student",
     element: (
-       <RequireRole allow={["tutor", "admin"]}>
+       <RequireRole allow={["student", "admin"]}>
           <AppShellStudent/>
         </RequireRole>
     ),
     children: [
-      {  index: true, element: <TutorDash /> }
+      {  index: true, element: <StudentDash /> }
     ]
   },
-
-   {
-     path: "student",
-     element: (
-        <RequireRole allow={["student", "admin"]}>
-          <StudentDash />
-        </RequireRole>
-     )
-    },
 
   // Cualquier otra ruta → redirige a Home
   { path: "*", element: <Navigate to="/" replace /> },

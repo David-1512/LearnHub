@@ -1,11 +1,110 @@
 {
+  "tutors": [
+    {
+      "id": "t101",
+      "name": "María González",
+      "age": 25,
+      "rating": 4.9,
+      "city": "Heredia, San Joaquín",
+      "schedule": "Lun - Vie • 2 - 8pm",
+      "subjects": [
+        "Matemáticas",
+        "Física"
+      ],
+      "bio": "Estudiante de cuarto semestre de la enseñanza de la matemática",
+      "avatar": "https://picsum.photos/seed/tutor1/640/360"
+    },
+    {
+      "id": "t102",
+      "name": "Javier Ruiz",
+      "age": 28,
+      "rating": 4.7,
+      "city": "San José",
+      "schedule": "Sáb - Dom • 9 - 1pm",
+      "subjects": [
+        "Inglés",
+        "Conversación"
+      ],
+      "bio": "Tutor con 4 años de experiencia en conversación A2–B2",
+      "avatar": "https://picsum.photos/seed/tutor2/640/360"
+    },
+    {
+      "id": "t103",
+      "name": "Andrea Martinez",
+      "age": 23,
+      "rating": 5,
+      "city": "Heredia, Heredia",
+      "schedule": "Lun - Vie • 8am - 10pm",
+      "subjects": [
+        "Programación",
+        "Estructura de datos"
+      ],
+      "bio": "Estudiante de cuarto semestre de ingeniería en sistemas",
+      "avatar": "https://picsum.photos/seed/tutor3/640/360"
+    }
+  ],
   "users": [
-    { "id": "t1", "name": "Laura", "email": "laura@tutor.com",   "roles": ["tutor"],   "password": "123456" },
-    { "id": "s1", "name": "Diego", "email": "diego@student.com", "roles": ["student"], "password": "123456" }
+    {
+      "id": "t1",
+      "name": "Laura",
+      "email": "laura@tutor.com",
+      "roles": [
+        "tutor"
+      ],
+      "password": "123456"
+    },
+    {
+      "id": "s1",
+      "name": "Diego",
+      "email": "diego@student.com",
+      "roles": [
+        "student"
+      ],
+      "password": "123456"
+    }
   ],
   "courses": [
-    { "id": 1, "title": "Álgebra Básica", "location": "San José", "price": 12000, "tutorId": "t1", "categories": ["math"] },
-    { "id": 2, "title": "Inglés Conversacional", "location": "Heredia", "price": 15000, "tutorId": "t1", "categories": ["languages"] }
+    {
+      "id": 1,
+      "title": "Álgebra Básica",
+      "location": "San José",
+      "price": 12000,
+      "tutorId": "t1",
+      "categories": [
+        "math"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Inglés Conversacional",
+      "location": "Heredia",
+      "price": 15000,
+      "tutorId": "t1",
+      "categories": [
+        "languages"
+      ]
+    }
   ],
-  "likes": []
+  "likes": [
+    {
+      "tutorId": "t101",
+      "id": 1
+    },
+    {
+      "tutorId": "t102",
+      "id": 2
+    },
+    {
+      "tutorId": "t101",
+      "id": 3
+    },
+    {
+      "tutorId": "t102",
+      "id": 4
+    },
+    {
+      "tutorId": "t101",
+      "id": 5
+    }
+  ]
 }
