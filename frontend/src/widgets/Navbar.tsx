@@ -1,4 +1,5 @@
 import { useNavigate} from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 export function NavbarInicio() {
   const nav = useNavigate();
@@ -53,6 +54,13 @@ export function NavbarRegistroLogin() {
 
 export function NavbarStudent() {
   const nav = useNavigate();
+    const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();            
+    nav("/login", { replace: true }); 
+  };
+
   return (
       <header className="border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
@@ -80,7 +88,7 @@ export function NavbarStudent() {
               Perfil
             </button>
             <button 
-              onClick={() => nav("/login")}
+              onClick={handleLogout}
             className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
               Cerrar Sesión
             </button>

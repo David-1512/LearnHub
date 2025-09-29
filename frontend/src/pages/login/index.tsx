@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "../../app/providers/AuthProvider";
+import { useAuth } from "../../auth/AuthContext";
 import { http } from "../../shared/api/http";
 
 const LoginSchema = z.object({

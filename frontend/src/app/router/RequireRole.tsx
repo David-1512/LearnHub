@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../providers/AuthProvider";
+import { useAuth } from "../../auth/AuthContext";
 
 type Props = { allow: Array<"student" | "tutor" | "admin">; children: ReactNode };
 

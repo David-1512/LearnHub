@@ -7,7 +7,7 @@ import HomePage from "../pages/home";
 import RegisterPage from "../pages/register";
 import TutorDash from "../pages/dashboard-tutor";
 import StudentDash from "../pages/dashboard-student";
-import { AuthProvider } from "./providers/AuthProvider";
+import { AuthProvider } from "../auth/AuthContext";
 import RequireRole from "./router/RequireRole";
 
 const router = createBrowserRouter([
@@ -58,12 +58,10 @@ const queryClient = new QueryClient();
 
 export default function AppRoot() {
   return (
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <RouterProvider router={router} />
-        </AuthProvider>
-      </QueryClientProvider>
-    </StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>             
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
