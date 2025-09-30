@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         </RequireRole>
     ),
     children: [
-      { path: "students", index: true, element: <TutorDash /> }
+      { index: true, element: <TutorDash /> }
     ]
   },
 
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         </RequireRole>
     ),
     children: [
-      { path: "discover", index: true, element: <StudentDash /> }
+      { index: true, element: <StudentDash /> }
     ]
   },
 

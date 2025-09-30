@@ -1,57 +1,89 @@
 import { useStudents } from "../../features/students/api";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function TutorDash() {
-  const { data, isLoading } = useStudents();
+  const { data, isLoading, isError } = useStudents();
+
+  if (isLoading) {
+    return <div className="p-6 text-center">Cargando estudiantes...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="p-6 text-center text-red-600">
+        No se pudieron cargar los estudiantes.
+      </div>
+    );
+  }
+
+  const students = data ?? [];
 
   return (
-    <main className="px-4 py-6">
-      <h1 className="text-center text-2xl font-semibold text-gray-800">Mis Estudiantes</h1>
+    <main className="px-6 py-8">
+      <h1 className="text-2xl font-semibold text-gray-800 mb-6">Mis estudiantes</h1>
 
-      <div className="mt-6 flex flex-wrap justify-center gap-6">
-        {isLoading ? (
-          <div>Cargando...</div>  
-        ) : (
-          data?.map((student) => (
-            <div
-              key={student.id}
-              className="flex w-full max-w-sm flex-col items-center gap-4 rounded-lg border border-[#E5E7EB] bg-white p-4 shadow-md"
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AnimatePresence>
+          {students.map((s) => (
+            <motion.div
+              key={s.id}
+              className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
             >
               {/* Avatar */}
-              <img
-                src={student.avatar}
-                alt={student.name}
-                className="w-28 h-28 rounded-full object-cover"
-              />
-              <div className="text-center">
-                {/* Nombre y edad */}
-                <h3 className="text-lg font-semibold text-[#16A34A]">
-                  {student.name}, {student.age}
-                </h3>
-                {/* Ciudad */}
-                <p className="text-sm text-gray-500">{student.city}</p>
-                {/* Match Duration */}
-                <p className="text-sm text-gray-400">Match hace {student.matchDuration}</p>
+              <div className="flex justify-center bg-gray-50 p-6">
+                <img
+                  src={s.avatar || "https://picsum.photos/seed/fallback/200"}
+                  alt={s.name}
+                  className="h-64 w-full rounded-t-xl object-cover"
+                />
               </div>
 
-              {/* Botones */}
-              <div className="mt-4 flex items-center gap-3">
-                <button
-                  onClick={() => alert(`Ver perfil de ${student.name}`)} // Aquí poner la acción de "Ver Perfil"
-                  className="rounded-md bg-[#2BB24C] text-white px-4 py-2"
-                >
-                  Ver Perfil
-                </button>
-                <button
-                  onClick={() => alert(`Retirar a ${student.name}`)} // Aquí poner la acción de "Retirar"
-                  className="rounded-md bg-red-500 text-white px-4 py-2"
-                >
-                  Retirar
-                </button>
+              {/* Info */}
+              <div className="px-4 py-3">
+                <h3 className="text-lg font-semibold text-[#16A34A]">
+                  {s.name}, {s.age}
+                </h3>
+                <p className="mt-1 text-sm text-gray-600 flex items-center">
+                  <PinIcon className="mr-1 h-4 w-4" />
+                  {s.city}
+                </p>
+                <p className="mt-1 text-sm text-gray-600">
+                  Match hace {s.matchDuration}
+                </p>
+
+                {/* Botones */}
+                <div className="mt-4 flex gap-2">
+                  <button className="flex-1 rounded-md bg-[#16A34A] text-white py-2 text-sm hover:bg-[#15803d]">
+                    Ver Perfil
+                  </button>
+                  <button className="flex-1 rounded-md bg-red-600 text-white py-2 text-sm hover:bg-red-700">
+                    Retirar
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </main>
+  );
+}
+
+/* ---------- Iconos ---------- */
+function PinIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="#6B7280"
+      aria-hidden="true"
+    >
+      <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 
+      0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 
+      2.5 2.5S13.38 11.5 12 11.5z" />
+    </svg>
   );
 }

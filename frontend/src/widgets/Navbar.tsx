@@ -116,13 +116,13 @@ export function NavbarTutor() {
           </a>
           <nav className="flex items-center gap-2">
             <button 
-              onClick={() => nav("/students")}
+              onClick={() => nav("/tutor")}
               className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
               <UsersIcon className="w-4 h-4 text-gray-500" />
               Estudiantes
             </button>
             <button 
-              onClick={() => nav("/students")}
+              onClick={() => nav("/tutor")}
             className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
               <UserIcon className="w-4 h-4 text-gray-500" />
               Perfil
