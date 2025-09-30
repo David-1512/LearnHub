@@ -1,26 +1,24 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams , useNavigate } from "react-router-dom";
 
 type Role = "student" | "tutor";
 
 export default function RegisterPage() {
   const [params] = useSearchParams();
+  const navigate = useNavigate();
   const presetRole = (params.get("role") as Role) || "student";
   const [role, setRole] = useState<Role>(presetRole);
   const [fullName, setFullName] = useState("");
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm]   = useState("");
- // const navigate = useNavigate();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (password !== confirm) { alert("Las contraseñas no coinciden"); 
     return; 
     }
-    if (email || fullName || password || confirm === "") { alert("Campos vacios"); 
-    return;
-    }
+    navigate("/login");
   }
 
   return (
