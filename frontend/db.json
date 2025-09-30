@@ -63,6 +63,25 @@
       "password": "123456"
     }
   ],
+
+  "students": [
+    {
+      "id": "s1",
+      "name": "David Serrano",
+      "age": 22,
+      "city": "San José, Pavas",
+      "avatar": "https://picsum.photos/seed/student1/640/360",
+      "matchDuration": "hace 3 semanas"
+    },
+    {
+      "id": "s2",
+      "name": "Karla Sanchez",
+      "age": 28,
+      "city": "San José, Pavas",
+      "avatar": "https://picsum.photos/seed/student2/640/360",
+      "matchDuration": "hace 1 semana"
+    }
+  ],
   "courses": [
     {
       "id": 1,

@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import {NavbarInicio,NavbarRegistroLogin, NavbarStudent} from "../widgets/Navbar";
+import {NavbarInicio,NavbarRegistroLogin, NavbarStudent, NavbarTutor} from "../widgets/Navbar";
 import { useIdleLogout } from "../auth/useIdLeLogout";
 import { useLogoutOnClose } from "../auth/useLogoutOnClose";
 
@@ -28,6 +28,17 @@ export function AppShellStudent() {
    return (
     <div  className="min-h-screen bg-white text-gray-900">
           <NavbarStudent/>
+          <Outlet />
+    </div>
+  );
+}
+
+  export function AppShellTutor() {
+   useIdleLogout(15 * 60 * 1000);
+   useLogoutOnClose();
+   return (
+    <div  className="min-h-screen bg-white text-gray-900">
+          <NavbarTutor/>
           <Outlet />
     </div>
   );

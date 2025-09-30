@@ -98,6 +98,45 @@ export function NavbarStudent() {
   );
 }
 
+export function NavbarTutor() {
+  const nav = useNavigate();
+    const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();            
+    nav("/login", { replace: true }); 
+  };
+
+  return (
+      <header className="border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-2 select-none">
+            <LogoIcon className="w-8 h-8 text-[#2BB24C]" />
+            <span className="text-xl font-semibold text-[#2BB24C] tracking-tight">TutorMatch</span>
+          </a>
+          <nav className="flex items-center gap-2">
+            <button 
+              onClick={() => nav("/students")}
+              className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
+              <UsersIcon className="w-4 h-4 text-gray-500" />
+              Estudiantes
+            </button>
+            <button 
+              onClick={() => nav("/students")}
+            className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
+              <UserIcon className="w-4 h-4 text-gray-500" />
+              Perfil
+            </button>
+            <button 
+              onClick={handleLogout}
+            className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
+              Cerrar Sesión
+            </button>
+          </nav>
+        </div>
+      </header>
+  );
+}
 
 function LogoIcon({ className = "" }: { className?: string }) {
   return (
@@ -136,3 +175,6 @@ function UserIcon({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+
+
