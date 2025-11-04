@@ -45,13 +45,24 @@
   ],
   "users": [
     {
-      "id": "t1",
-      "name": "Laura",
+      "id": "t101",
+      "name": "Laur",
       "email": "laura@tutor.com",
       "roles": [
         "tutor"
       ],
-      "password": "123456"
+      "password": "123456",
+      "age": 2,
+      "phone": "6022-2231",
+      "city": "San José, Pavas",
+      "schedule": "Lun - Vie · 2 - 8pm",
+      "subjects": [
+        "Matemáticas",
+        "Física",
+        "li"
+      ],
+      "bio": "Estudiante de cuarto semestre de la enseñanza de la matemática",
+      "avatar": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=400&auto=format&fit=crop"
     },
     {
       "id": "s1",
@@ -63,7 +74,6 @@
       "password": "123456"
     }
   ],
-
   "students": [
     {
       "id": "s1",
@@ -71,7 +81,17 @@
       "age": 22,
       "city": "San José, Pavas",
       "avatar": "https://picsum.photos/seed/student1/640/360",
-      "matchDuration": "hace 3 semanas"
+      "matchDuration": "hace 3 semanas",
+      "interests": [
+        "Matemáticas",
+        "Base de datos",
+        "Programación",
+        "caso"
+      ],
+      "email": "david.serrano.medrano@est.una.ac.cr",
+      "phone": "+506 88876531",
+      "bio": "Estudiante de ingeniería en sistemas buscando apoyo en materias de la carrera",
+      "title": "Ingeniería en sistemas"
     },
     {
       "id": "s2",
@@ -107,31 +127,20 @@
   "likes": [
     {
       "tutorId": "t101",
+      "studentId": "s1",
       "id": 1
     },
     {
-      "tutorId": "t102",
-      "id": 2
-    },
-    {
-      "tutorId": "t101",
-      "id": 3
-    },
-    {
-      "tutorId": "t102",
-      "id": 4
-    },
-    {
-      "tutorId": "t101",
-      "id": 5
-    },
-    {
-      "tutorId": "t101",
-      "id": 6
-    },
-    {
       "tutorId": "t103",
-      "id": 7
+      "studentId": "s1",
+      "id": 2
+    }
+  ],
+  "passes": [
+    {
+      "tutorId": "t102",
+      "studentId": "s1",
+      "id": 1
     }
   ]
 }

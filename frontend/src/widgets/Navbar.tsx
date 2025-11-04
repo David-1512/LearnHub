@@ -54,11 +54,20 @@ export function NavbarRegistroLogin() {
 
 export function NavbarStudent() {
   const nav = useNavigate();
-    const { logout } = useAuth();
+  const { logout } = useAuth();
+  const { user } = useAuth();
 
   const handleLogout = async () => {
     await logout();            
     nav("/login", { replace: true }); 
+  };
+
+  const handleProfileClick = () => {
+    if (user) {
+      nav(`/student/profile/${user.id}`); // Navegar al perfil del tutor usando su ID
+    } else {
+      nav("/login");  // Redirigir al login si el tutor no está autenticado
+    }
   };
 
   return (
@@ -70,19 +79,19 @@ export function NavbarStudent() {
           </a>
           <nav className="flex items-center gap-2">
             <button 
-            onClick={() => nav("/discover")}
+            onClick={() => nav("/student")}
             className="inline-flex items-center gap-2 rounded-md bg-[#2BB24C] text-white text-sm font-medium px-3.5 py-2 shadow-sm hover:brightness-95">
               <HeartIcon className="w-4 h-4" />
               Descubrir
             </button>
             <button 
-              onClick={() => nav("/discover")}
+              onClick={() => nav("/student/tutors")}
               className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
               <UsersIcon className="w-4 h-4 text-gray-500" />
               Tutores
             </button>
             <button 
-              onClick={() => nav("/discover")}
+               onClick={handleProfileClick}
             className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
               <UserIcon className="w-4 h-4 text-gray-500" />
               Perfil
@@ -101,10 +110,19 @@ export function NavbarStudent() {
 export function NavbarTutor() {
   const nav = useNavigate();
     const { logout } = useAuth();
+    const { user } = useAuth();
 
   const handleLogout = async () => {
     await logout();            
     nav("/login", { replace: true }); 
+  };
+
+   const handleProfileClick = () => {
+    if (user) {
+      nav(`/tutor/profile/${user.id}`); // Navegar al perfil del tutor usando su ID
+    } else {
+      nav("/login");  // Redirigir al login si el tutor no está autenticado
+    }
   };
 
   return (
@@ -122,7 +140,7 @@ export function NavbarTutor() {
               Estudiantes
             </button>
             <button 
-              onClick={() => nav("/tutor")}
+            onClick={handleProfileClick} 
             className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium px-3.5 py-2 hover:shadow-sm">
               <UserIcon className="w-4 h-4 text-gray-500" />
               Perfil

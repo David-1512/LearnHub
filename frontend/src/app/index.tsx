@@ -5,12 +5,17 @@ import LoginPage from "../pages/login";
 import HomePage from "../pages/home";
 import RegisterPage from "../pages/register";
 import TutorDash from "../pages/dashboard-tutor";
+import TutorProfile from "../pages/profile-tutor";
 import StudentDash from "../pages/dashboard-student";
 import { AuthProvider } from "../auth/AuthContext";
 import RequireRole from "./router/RequireRole";
+import StudentPublicProfile from "../pages/public-student-profile";
+import StudentMatches from "../pages/student-matches";
+import TutorPublicProfile from "../pages/tutor-public-profile";
+import StudentProfile from "../pages/profile-student";
 
 const router = createBrowserRouter([
-   // Layout principal (navbar de inicio)
+   // Layout principal
   {
     path: "/",                   
     element: <AppShellInicio />,
@@ -28,7 +33,7 @@ const router = createBrowserRouter([
     ],
   },
    
-
+  //Layout de tutor
   {
    path: "tutor",
     element: (
@@ -37,10 +42,20 @@ const router = createBrowserRouter([
         </RequireRole>
     ),
     children: [
-      { index: true, element: <TutorDash /> }
+     { index: true, element: <Navigate to="students" replace /> },
+
+    // lista Mis estudiantes
+    { path: "students", element: <TutorDash /> },
+
+    // perfil de un estudiante
+    { path: "students/:studentId", element: <StudentPublicProfile /> },
+
+    // perfil del tutor
+    { path: "profile/:tutorId", element: <TutorProfile /> },
     ]
   },
 
+  //Layout de estudiante
   {
    path: "student",
     element: (
@@ -49,7 +64,17 @@ const router = createBrowserRouter([
         </RequireRole>
     ),
     children: [
-      { index: true, element: <StudentDash /> }
+      // Descubrir (Tinder)
+    { index: true, element: <StudentDash /> },
+
+    // Mis tutores 
+    { path: "tutors", element: <StudentMatches /> },
+
+    // Perfil publico de un tutor 
+    { path: "tutors/:tutorId", element: <TutorPublicProfile /> },
+
+    // Perfil de un studiante
+    { path: "profile/:studentId", element: <StudentProfile /> },
     ]
   },
 

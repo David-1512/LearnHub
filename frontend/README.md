@@ -22,7 +22,7 @@ npm ci
 
 ### 3) Variables de entorno
 ```bash
-cp .env.example .env
+copy .env.example .env
 ```
 
 ### 4) Mock API

@@ -1,32 +1,67 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { PanInfo } from "framer-motion"; 
-import { useTutors, useLikeTutor } from "../../features/tutors/api";
+import type { PanInfo } from "framer-motion";
+
+import {
+  useTutors,
+  useLikeTutor,
+  useLikedTutorIds,
+  usePassTutor,
+  usePassedTutorIds,
+} from "../../features/tutors/api";
 import type { Tutor } from "../../features/tutors/api";
+import { useAuth } from "../../auth/AuthContext";
 
 export default function StudentDash() {
+  const { user } = useAuth();
+  const studentId = user?.roles.includes("student") ? user.id : undefined;
+
   const { data, isLoading, isError } = useTutors();
-  const likeMut = useLikeTutor();
+
+  // Conjuntos de tutores ya decididos (❤ ó ✖) por el estudiante
+  const likedSet = useLikedTutorIds({ studentId });
+  const passedSet = usePassedTutorIds({ studentId });
+
+  // Unión de ambos => no se muestran en la baraja
+  const seenSet = useMemo(
+    () => new Set<string>([...likedSet, ...passedSet] as any),
+    [likedSet, passedSet]
+  );
+
+  // Baraja: todos los tutores - ya vistos
+ const deck = useMemo(() => (data ?? []).filter((t) => !seenSet.has(t.id)), [data, seenSet]);
+
+  const likeMut = useLikeTutor(studentId);
+  const passMut = usePassTutor(studentId);
+
   const [idx, setIdx] = useState(0);
+  const hasMore = idx < deck.length;
+  const tutor = useMemo(() => (hasMore ? deck[idx] : undefined), [deck, idx, hasMore]);
 
-  const tutors = data ?? [];
-  const hasMore = idx < tutors.length;
-  const tutor = useMemo(() => (hasMore ? tutors[idx] : undefined), [tutors, idx, hasMore]);
+  const next = () => setIdx((i) => (i + 1 < deck.length ? i + 1 : i));
 
-  const next = () => setIdx((i) => (i + 1 < tutors.length ? i + 1 : i));
   const like = (t: Tutor) => {
     likeMut.mutate({ tutorId: t.id });
     next();
   };
-  const skip = () => next();
+
+  useEffect(() => {
+  setIdx(0);
+ }, [deck.length]); 
+
+  const skip = () => {
+    if (!tutor) return;
+    passMut.mutate({ tutorId: tutor.id });
+    next();
+  };
 
   function onDragEnd(_: any, info: PanInfo) {
     if (!tutor) return;
     const { offset, velocity } = info;
     const power = Math.abs(offset.x) * velocity.x;
     const threshold = 800; // sensibilidad
-    if (power > threshold) like(tutor); // derecha = like
-    else if (power < -threshold) skip(); // izquierda = skip
+    if (power > threshold) like(tutor);       // derecha = like
+    else if (power < -threshold) skip();      // izquierda = dislike
   }
 
   if (isError) {
@@ -41,9 +76,7 @@ export default function StudentDash() {
         <div className="w-full max-w-[560px]">
           {isLoading && <CardSkeleton />}
 
-          {!isLoading && !tutor && (
-            <EmptyState onReset={() => setIdx(0)} />
-          )}
+          {!isLoading && !tutor && <EmptyState onReset={() => setIdx(0)} />}
 
           <AnimatePresence mode="popLayout">
             {tutor && (
@@ -54,7 +87,7 @@ export default function StudentDash() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
-                {/* Imagen (drag) */}
+                {/* Imagen (drag para like/skip) */}
                 <motion.img
                   src={tutor.avatar || "https://picsum.photos/seed/fallback/640/360"}
                   alt={tutor.name}
@@ -62,7 +95,10 @@ export default function StudentDash() {
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={0.8}
-                  whileDrag={{ rotate: (dragInfo) => (typeof dragInfo === "number" ? dragInfo / 30 : 0), boxShadow: "0 10px 30px rgba(0,0,0,0.15)" }}
+                  whileDrag={{
+                    rotate: (dragInfo) => (typeof dragInfo === "number" ? dragInfo / 30 : 0),
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+                  }}
                   onDragEnd={onDragEnd}
                 />
 
@@ -86,7 +122,6 @@ export default function StudentDash() {
                     {tutor.schedule}
                   </p>
 
-                  {/* Chips */}
                   <div className="mt-2 flex flex-wrap gap-2">
                     {tutor.subjects.map((s) => (
                       <span
@@ -108,17 +143,19 @@ export default function StudentDash() {
           <div className="mt-6 flex items-center justify-center gap-6">
             <button
               onClick={skip}
-              disabled={!tutor}
+              disabled={!tutor || passMut.isPending}
               className="grid h-12 w-12 place-items-center rounded-full border text-gray-700 hover:bg-gray-50 disabled:opacity-50"
               aria-label="Descartar"
+              title={passMut.isPending ? "Guardando…" : "Descartar"}
             >
               ✖
             </button>
             <button
               onClick={() => tutor && like(tutor)}
-              disabled={!tutor}
+              disabled={!tutor || likeMut.isPending}
               className="grid h-12 w-12 place-items-center rounded-full bg-[#22C55E] text-white hover:bg-[#16A34A] disabled:opacity-50"
               aria-label="Me gusta"
+              title={likeMut.isPending ? "Guardando…" : "Me gusta"}
             >
               ❤
             </button>
@@ -135,10 +172,7 @@ function EmptyState({ onReset }: { onReset: () => void }) {
     <div className="rounded-xl border border-dashed p-8 text-center text-gray-600">
       No hay más tutores para mostrar.
       <div className="mt-4">
-        <button
-          onClick={onReset}
-          className="rounded-md border px-4 py-2 text-sm hover:bg-gray-50"
-        >
+        <button onClick={onReset} className="rounded-md border px-4 py-2 text-sm hover:bg-gray-50">
           Volver al inicio
         </button>
       </div>
@@ -180,7 +214,7 @@ function PinIcon({ className = "" }: { className?: string }) {
 function ClockIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="#6B7280" aria-hidden="true">
-      <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 11h5v-2h-4V7h-2v6Z"/>
+      <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 11h5v-2h-2V7h-2v6Z"/>
     </svg>
   );
 }
